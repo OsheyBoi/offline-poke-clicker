@@ -6,6 +6,9 @@ import { Saveable } from '../DataStore/common/Saveable';
 import * as GameConstants from '../GameConstants';
 import Notifier from '../notifications/Notifier';
 import Rand from '../utilities/Rand';
+import GameHelper from '../GameHelper';
+import SpindaSpots from '../enums/SpindaSpots';
+import * as SpindaHelper from '../pokemons/SpindaHelper';
 
 export default class Profile implements Saveable {
     public static MAX_TRAINER = 157;
@@ -22,6 +25,7 @@ export default class Profile implements Saveable {
     public pokemonFemale: KnockoutObservable<boolean>;
     public background: KnockoutObservable<number>;
     public textColor: KnockoutObservable<string>;
+    public spindaSpots: Partial<Record<SpindaSpots, Record<'x' | 'y', KnockoutObservable<number>>>>;
 
     constructor(
         name = 'Trainer',
@@ -38,6 +42,7 @@ export default class Profile implements Saveable {
         this.pokemonFemale = ko.observable(false).extend({ boolean: null });
         this.background = ko.observable(background).extend({ numeric: 0 });
         this.textColor = ko.observable(textColor);
+        this.spindaSpots = SpindaHelper.defaultValues(true);
     }
 
     static getTrainerCard(
@@ -54,6 +59,7 @@ export default class Profile implements Saveable {
         version = '0.0.0',
         challenges = {},
         id = '',
+        spindaSpots = SpindaHelper.defaultValues(),
         key?: string,
     ): Element {
         const template: HTMLTemplateElement = document.querySelector('#trainerCardTemplate');
@@ -92,6 +98,20 @@ export default class Profile implements Saveable {
         trainerTime.innerText = GameConstants.formatTimeFullLetters(seconds);
         const trainerPokemonImage: HTMLImageElement = node.querySelector('.trainer-pokemon-image');
         trainerPokemonImage.src = `assets/images/${pokemonShiny ? 'shiny' : ''}pokemon/${pokemon}${pokemonFemale ? '-f' : ''}.png`;
+
+        // Spinda
+        if (pokemon === 327) {
+            GameHelper.enumNumbers(SpindaSpots).forEach((position) => {
+                const spotContainer: HTMLElement = node.querySelector(`.${SpindaSpots[position]}`);
+                const positions = SpindaHelper.generateSpindaSpots(position, spindaSpots[position].x, spindaSpots[position].y);
+                spotContainer.style.backgroundImage = `url(${SpindaHelper.getSpindaMask(pokemonShiny)})`;
+                spotContainer.style.maskPosition = `${positions.spotX}px ${positions.spotY}px`;
+            });
+        } else {
+            const spotsElements: HTMLElement = node.querySelector('.spots');
+            spotsElements.style.display = 'none';
+        }
+
         const trainerVersion: HTMLElement = node.querySelector('.trainer-version');
         trainerVersion.innerText = `v${version}`;
         const badgeContainer = node.querySelector('.challenge-badges');
@@ -130,6 +150,7 @@ export default class Profile implements Saveable {
             App.game.update.version,
             App.game.challenges.toJSON().list,
             player.trainerId,
+            SpindaHelper.axisObservableToNumber(this.spindaSpots),
         ));
 
         preview.subscribe((previewElement) => {
@@ -150,9 +171,16 @@ export default class Profile implements Saveable {
         if (json.pokemonFemale !== undefined) this.pokemonFemale(json.pokemonFemale);
         if (json.background !== undefined) this.background(json.background);
         if (json.textColor) this.textColor(json.textColor);
+        if (json.spindaSpots) {
+            GameHelper.enumNumbers(SpindaSpots).forEach((position) => {
+                this.spindaSpots[position].x(json.spindaSpots[position].x);
+                this.spindaSpots[position].y(json.spindaSpots[position].y);
+            });
+        }
     }
 
     toJSON(): Record<string, any> {
+
         return {
             name: this.name(),
             trainer: this.trainer(),
@@ -161,6 +189,7 @@ export default class Profile implements Saveable {
             pokemonFemale: this.pokemonFemale(),
             background: this.background(),
             textColor: this.textColor(),
+            spindaSpots: SpindaHelper.axisObservableToNumber(this.spindaSpots),
         };
     }
 }

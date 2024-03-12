@@ -28,6 +28,7 @@ import FilterSetting from './FilterSetting';
 import { LogBookTypes } from '../logbook/LogBookTypes';
 import QuestLineStartedRequirement from '../requirements/QuestLineStartedRequirement';
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
+import SpindaSpots from '../enums/SpindaSpots';
 
 export default Settings;
 
@@ -339,6 +340,13 @@ Settings.add(new Setting('saveFilename', 'Save file name', [], '[v{version}] Pok
 
 // Mute toggle
 Settings.add(new BooleanSetting('sound.muted', 'Mute All Sounds', false));
+
+// Spinda spots
+GameHelper.enumStrings(SpindaSpots).forEach((key) => {
+    const settingName = camelCaseToString(key);
+    Settings.add(new RangeSetting(`spinda.${key}X`, `Spinda ${settingName} X`, 0, 16, 1, 8));
+    Settings.add(new RangeSetting(`spinda.${key}Y`, `Spinda ${settingName} Y`, 0, 16, 1, 8));
+});
 
 // Hotkeys
 Settings.add(new HotkeySetting('hotkey.farm', 'Farm', 'F'));

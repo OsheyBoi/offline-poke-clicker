@@ -1,7 +1,17 @@
 <script type="text/html" id="pokemonSpriteTemplate">
-    <img class="enemy"
-        data-bind="attr:{ src: PokemonHelper.getImage($data.pokemon.id, $data.pokemon.shiny, $data.pokemon.gender == GameConstants.BattlePokemonGender.Female, $data.pokemon.shadow) }"
-        src=""/>
+    <knockout class="position-relative d-inline-block enemy-sprite">
+        <img class="enemy"
+            data-bind="attr:{ src: PokemonHelper.getImage($data.pokemon.id, $data.pokemon.shiny, $data.pokemon.gender == GameConstants.BattlePokemonGender.Female) }"
+            src=""/>
+        <!-- ko if: $data.pokemon.id === 327 -->
+            <knockout data-bind="template: { 
+                name: 'spindaSpotTemplate', 
+                data: { 
+                    'shiny': $data.pokemon.shiny,
+                } 
+            }">Spinda Spot</knockout>
+        <!-- /ko -->
+    </knockout>
 </script>
 
 <!-- Example usage -->

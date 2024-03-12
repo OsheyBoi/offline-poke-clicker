@@ -27,6 +27,7 @@ import QuestLineState from './quests/QuestLineState';
 import WeatherForecastStatus from './enums/WeatherForecastStatus';
 import SafariEnvironments from './enums/SafariEnvironments';
 import FarmingTool from './enums/FarmingTool';
+import SpindaSpots from './enums/SpindaSpots';
 // end enums
 import BooleanSetting from './settings/BooleanSetting';
 import RangeSetting from './settings/RangeSetting';
@@ -159,6 +160,7 @@ import {
 import * as OtherEvos from './pokemons/evolutions/Methods';
 import { pokemonBabyPrevolutionMap, pokemonList, pokemonMap } from './pokemons/PokemonList';
 import TmpPokemonHelper from './pokemons/TmpPokemonHelper';
+import * as SpindaHelper from './pokemons/SpindaHelper';
 import PokedexFilters from './settings/PokedexFilters';
 import { createLogContent } from './logbook/helpers';
 import { ItemList } from './items/ItemList';
@@ -229,6 +231,7 @@ Object.assign(<any>window, {
     WeatherForecastStatus,
     SafariEnvironments,
     FarmingTool,
+    SpindaSpots,
     BooleanSetting,
     RangeSetting,
     Setting,
@@ -373,6 +376,7 @@ Object.assign(<any>window, {
     pokemonMap,
     pokemonBabyPrevolutionMap,
     TmpPokemonHelper,
+    SpindaHelper,
     PokedexFilters,
     ItemList,
     Item,

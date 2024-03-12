@@ -5,6 +5,7 @@ import Profile from './profile/Profile';
 import { SortSaves } from './Sortable';
 import Settings from './settings/index';
 import GameHelper from './GameHelper';
+import * as SpindaHelper from './pokemons/SpindaHelper';
 
 export default class SaveSelector {
     static MAX_SAVES = 9;
@@ -78,6 +79,8 @@ export default class SaveSelector {
                 saveData.update?.version ?? 'Unknown',
                 saveData.challenges?.list ?? {},
                 playerData.trainerId,
+                saveData.profile?.spindaSpots ?? SpindaHelper.defaultValues(),
+                
                 key,
             );
         } catch (e) {
