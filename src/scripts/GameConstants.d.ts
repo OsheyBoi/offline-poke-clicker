@@ -932,15 +932,8 @@ namespace GameConstants {
         Magikarp_Biscuit,
     }
     declare const zCrystalItemType: string[];
-    declare enum ZMoveStatus {
-        inactive,
-        counteractive,
-        active,
-    }
-    declare const ZMOVE_ACTIVE_MULTIPLIER: number;
-    declare const ZMOVE_COUNTERACTIVE_MULTIPLIER: number;
-    declare const ZMOVE_ACTIVE_TIME: number;
-    declare const ZMOVE_COUNTERACTIVE_TIME: number;
+    declare const ZMOVE_MAX_ENERGY: number;
+    declare const ZMOVE_ENERGY_PER_POKEMON: number;
     declare enum ContestResults {
         Normal,
         Super,

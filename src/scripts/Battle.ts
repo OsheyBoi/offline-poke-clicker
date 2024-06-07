@@ -55,10 +55,17 @@ class Battle {
             return;
         }
         GameHelper.incrementObservable(App.game.statistics.clickAttacks);
-        this.enemyPokemon().damage(App.game.party.calculateClickAttack(true));
+        this.enemyPokemon().damage(App.game.party.calculateClickAttack(this.enemyPokemon().type1, this.enemyPokemon().type2, true));
         if (!this.enemyPokemon().isAlive()) {
             this.defeatPokemon();
         }
+    }
+
+    public static calculateClickType(): PokemonType {
+        if (this.enemyPokemon()) {
+            return App.game.zMoves.pickTypeAgainst(this.enemyPokemon().name);
+        }
+        return PokemonType.None;
     }
 
     /**
@@ -222,5 +229,13 @@ class Battle {
             return '';
         }
     }).extend({rateLimit: 1000});
+
+    public static clickAttackTooltip: KnockoutComputed<string> = ko.pureComputed(() => {
+        if (Battle.enemyPokemon()) {
+            const clickAttack = App.game.party.calculateClickAttack(Battle.enemyPokemon().type1, Battle.enemyPokemon().type2);
+            return `${clickAttack.toLocaleString('en-US')} against ${pokemonMap[Battle.enemyPokemon().name].type.map(t => PokemonType[t]).join('&nbsp;/&nbsp;')}`;
+        }
+        return '';
+    });
 
 }

@@ -2693,6 +2693,9 @@ class Update implements Saveable {
             if (saveData.statistics.temporaryBattleDefeated[241]) {
                 Update.startQuestLine(saveData, 'Child of the Stars');
             }
+
+            // ZMove rework
+            delete saveData.zMoves;
         },
     };
 
