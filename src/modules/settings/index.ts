@@ -30,6 +30,8 @@ import QuestLineStartedRequirement from '../requirements/QuestLineStartedRequire
 import ClearDungeonRequirement from '../requirements/ClearDungeonRequirement';
 import MaxRegionRequirement from '../requirements/MaxRegionRequirement';
 import PokemonCategories from '../party/Category';
+import OrderSetting from './OrderSetting';
+import areaStatus from '../enums/AreaStatus';
 
 export default Settings;
 
@@ -172,7 +174,8 @@ Settings.add(new CssVariableSetting('uncaughtShinyPokemonAndMissingAchievement',
 Settings.add(new CssVariableSetting('uncaughtShinyPokemon', 'Uncaught Shiny Pokemon', [], '#ffee00'));
 Settings.add(new CssVariableSetting('missingAchievement', 'Missing Achievement', [], '#57e3ff'));
 Settings.add(new CssVariableSetting('missingResistant', 'Missing Resistant', [], '#ab1707', new ClearDungeonRequirement(1, getDungeonIndex('Distortion World'))));
-Settings.add(new CssVariableSetting('completed', 'Completed Location', [], '#ffffff'));
+Settings.add(new CssVariableSetting('completed', 'None of the Above', [], '#ffffff'));
+Settings.add(new OrderSetting('mapAreaStateOrder', 'Map Area State Order', GameHelper.enumNumbers(areaStatus)));
 
 // Other settings
 Settings.add(new BooleanSetting('disableAutoDownloadBackupSaveOnUpdate', 'Disable automatic backup save downloading when game updates', false));
