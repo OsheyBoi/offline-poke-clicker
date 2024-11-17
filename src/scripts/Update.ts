@@ -2825,6 +2825,7 @@ class Update implements Saveable {
                 settingsData.showFarmModule = settingsData.showFarmModuleControls === false ? 'limited' : 'extended';
             }
             delete settingsData.showFarmModuleControls;
+
             // Pokémon Center renamed
             if (playerData._townName == 'Pokemon HQ Lab') {
                 playerData._townName = 'Pokémon HQ Lab';
@@ -2840,6 +2841,12 @@ class Update implements Saveable {
                     r.backgroundPosition = r.backgroundPosition.replace(/^%\s([\d.]+) %\s([\d.]+)$/, '$1% $2%');
                 }
             });
+        },
+
+        '0.10.24': ({ playerData, saveData, settingsData }) => {
+            // Rename pokemonSeen statistic to pokemonDiscovered for clarity
+            saveData.statistics.pokemonDiscovered = saveData.statistics.pokemonSeen;
+            delete saveData.statistics.pokemonSeen;
         },
     };
 
